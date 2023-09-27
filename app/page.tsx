@@ -3,6 +3,7 @@ import {productsSchema} from './types'
 import {ButtonDelete} from './components/ButtonDelete'
 import {CardInfo} from './components/CardInfo'
 import {ImageProduct} from './components/ImageProduct'
+import {auth} from '@clerk/nextjs'
 
 export default async function Home() {
   async function getData() {
@@ -26,8 +27,13 @@ export default async function Home() {
     return validatedProducts
   }
   const products = await getData()
+  const {userId} = auth()
+
+  console.log('userId :', userId)
+
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
+    <main className="flex min-h-screen flex-col p-2 space-y-10 container mx-auto">
+      <h1 className="text-2xl text-center">Products</h1>
       <form
         className="flex flex-col gap-2 mb-4 w-full"
         action={async e => {
@@ -37,24 +43,24 @@ export default async function Home() {
       >
         <input
           type="text"
-          className="border border-black rounded-lg p-2 w-1/3 mx-auto"
+          className="border border-black rounded-lg p-2 w-full md:w-1/3 mx-auto"
           name="product"
           placeholder="Enter product name"
         />
         <input
           type="text"
-          className="border border-black rounded-lg p-2 w-1/3 mx-auto"
+          className="border border-black rounded-lg p-2 w-full md:w-1/3 mx-auto"
           name="price"
           placeholder="Enter price"
         />
         <button
           type="submit"
-          className="p-2 bg-blue-500 text-white rounded-lg w-1/3 mx-auto"
+          className="p-2 bg-blue-500 text-white rounded-lg w-full md:w-1/3 mx-auto"
         >
           Add Product
         </button>
       </form>
-      <ul className="grid grid-cols-4 grid-flow-rows mx-auto gap-4 w-full">
+      <ul className="grid sm:grid-cols-2 md:grid-cols-4 grid-flow-rows mx-auto gap-4 w-full">
         {products.map(product => (
           <li
             key={product.id}
