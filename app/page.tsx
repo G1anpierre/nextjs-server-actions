@@ -2,6 +2,7 @@ import {addProduct} from './actions'
 import {productsSchema} from './types'
 import {ButtonDelete} from './components/ButtonDelete'
 import {CardInfo} from './components/CardInfo'
+import {ImageProduct} from './components/ImageProduct'
 
 export default async function Home() {
   async function getData() {
@@ -25,27 +26,41 @@ export default async function Home() {
     return validatedProducts
   }
   const products = await getData()
-
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
-      <form className="flex flex-col gap-2 mb-4" action={addProduct}>
+      <form
+        className="flex flex-col gap-2 mb-4 w-full"
+        action={async e => {
+          'use server'
+          addProduct(e)
+        }}
+      >
         <input
           type="text"
-          className="border border-black rounded-lg p-2"
+          className="border border-black rounded-lg p-2 w-1/3 mx-auto"
           name="product"
+          placeholder="Enter product name"
         />
         <input
           type="text"
-          className="border border-black rounded-lg p-2"
+          className="border border-black rounded-lg p-2 w-1/3 mx-auto"
           name="price"
+          placeholder="Enter price"
         />
-        <button type="submit" className="p-2 bg-blue-500 text-white rounded-lg">
+        <button
+          type="submit"
+          className="p-2 bg-blue-500 text-white rounded-lg w-1/3 mx-auto"
+        >
           Add Product
         </button>
       </form>
-      <ul className="grid grid-cols-8 grid-flow-rows mx-auto gap-4">
+      <ul className="grid grid-cols-4 grid-flow-rows mx-auto gap-4 w-full">
         {products.map(product => (
-          <li key={product.id} className="bg-gray-300 rounded-lg p-2 relative">
+          <li
+            key={product.id}
+            className="grid grid-rows-5 gap-3 bg-gray-300 rounded-lg p-2 relative h-96 w-full"
+          >
+            <ImageProduct {...product} />
             <ButtonDelete {...product} />
             <CardInfo {...product} />
           </li>

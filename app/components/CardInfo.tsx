@@ -15,36 +15,37 @@ export const CardInfo = (product: ProductType) => {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col h-full w-full row-start-4">
       {isEditing ? (
-        <>
-          <form
-            action={e => {
-              updateProduct(e)
-              isSetEditing(false)
-            }}
-            className="flex flex-col gap-2"
-          >
-            <input
-              type="hidden"
-              name="id"
-              value={product.id}
-              className="border border-black rounded-lg p-2"
-            />
-            <input
-              type="text"
-              name="product"
-              value={productInfo.product}
-              onChange={handleChange}
-              className="border border-black rounded-lg p-2"
-            />
-            <input
-              type="text"
-              name="price"
-              value={productInfo.price}
-              onChange={handleChange}
-              className="border border-black rounded-lg p-2"
-            />
+        <form
+          action={e => {
+            updateProduct(e)
+            isSetEditing(false)
+          }}
+          className="flex flex-col gap-1 h-full"
+        >
+          <input
+            type="hidden"
+            name="id"
+            value={product.id}
+            className="border border-black rounded-lg"
+          />
+          <input
+            type="text"
+            name="product"
+            value={productInfo.product}
+            onChange={handleChange}
+            className="border border-black rounded-lg p-1"
+          />
+          <input
+            type="text"
+            name="price"
+            value={productInfo.price}
+            onChange={handleChange}
+            className="border border-black rounded-lg p-1"
+          />
+
+          <div className="flex justify-between mt-auto">
             <button
               type="submit"
               className="p-2 bg-blue-500 text-white rounded-lg"
@@ -58,14 +59,14 @@ export const CardInfo = (product: ProductType) => {
             >
               Cancel
             </button>
-          </form>
-        </>
+          </div>
+        </form>
       ) : (
         <div
           onDoubleClick={() => isSetEditing(true)}
-          className="cursor-pointer"
+          className="cursor-pointer row-start-4 flex flex-col gap-2"
         >
-          <h2>{product.product}</h2>
+          <h2 className="text-2xl">{product.product}</h2>
           <p>{product.price}</p>
         </div>
       )}
