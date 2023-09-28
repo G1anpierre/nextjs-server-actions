@@ -1,6 +1,7 @@
 import {Webhook} from 'svix'
 import {headers} from 'next/headers'
 import {WebhookEvent} from '@clerk/nextjs/server'
+import {prisma} from '@/utils/db'
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -49,11 +50,18 @@ export async function POST(req: Request) {
   }
 
   // Get the ID and type
-  const {id} = evt.data
+  const {id, ...attributes} = evt.data
   const eventType = evt.type
 
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
-  console.log('Webhook body:', body)
+  if (eventType === 'user.created') {
+    const updatedUser = await prisma.user.create({
+      data: {
+        clerkId: id as string,
+        attributes: attributes as {},
+      },
+    })
+    console.log('updatedUser :', updatedUser)
+  }
 
   return new Response('', {status: 201})
 }

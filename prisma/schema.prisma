@@ -14,7 +14,6 @@ model User {
   userId    String   @id @default(uuid())
   cratedAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
-  email String @unique
-  name String?
+  attributes Json
   clerkId  String         @unique
 }
