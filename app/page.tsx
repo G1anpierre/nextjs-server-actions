@@ -29,8 +29,6 @@ export default async function Home() {
   const products = await getData()
   const {userId} = auth()
 
-  console.log('userId :', userId)
-
   return (
     <main className="flex min-h-screen flex-col p-2 space-y-10 container mx-auto">
       <h1 className="text-2xl text-center">Products</h1>

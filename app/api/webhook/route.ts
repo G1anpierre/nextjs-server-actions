@@ -54,13 +54,25 @@ export async function POST(req: Request) {
   const eventType = evt.type
 
   if (eventType === 'user.created') {
-    const updatedUser = await prisma.user.create({
-      data: {
-        clerkId: id as string,
-        attributes: attributes as {},
-      },
-    })
-    console.log('updatedUser :', updatedUser)
+    try {
+      await prisma.user.upsert({
+        where: {
+          clerkId: id as string,
+        },
+        create: {
+          clerkId: id as string,
+          attributes: attributes as {},
+        },
+        update: {
+          attributes: attributes as {},
+        },
+      })
+    } catch (e) {
+      console.error('Error creating user', e)
+      return new Response('Error occured', {
+        status: 500,
+      })
+    }
   }
 
   return new Response('', {status: 201})
